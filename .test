@@ -1,0 +1,47 @@
+# Tests API Articles - Node.js + Express + MongoDB
+
+# Test 1: Page d'accueil
+curl -X GET http://localhost:3000
+
+# Test 2: Créer un article
+curl -X POST http://localhost:3000/api/articles \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Mon premier article", "content": "Contenu de test", "author": "Jean-Louis"}'
+
+# Test 3: Récupérer tous les articles
+curl -X GET http://localhost:3000/api/articles
+
+# Test 4: Récupérer un article par ID (remplacer [ID] par l'ID réel)
+curl -X GET http://localhost:3000/api/articles/[ID]
+
+# Test 5: Supprimer un article (remplacer [ID] par l'ID réel)
+curl -X DELETE http://localhost:3000/api/articles/[ID]
+
+# Test 6: Vérifier que l'article a été supprimé
+curl -X GET http://localhost:3000/api/articles
+
+# Test 7: Test avec ID invalide
+curl -X GET http://localhost:3000/api/articles/invalid-id
+
+# Test 8: Test validation - article sans titre
+curl -X POST http://localhost:3000/api/articles \
+  -H "Content-Type: application/json" \
+  -d '{"content": "Contenu sans titre"}'
+
+# Test 9: Test validation - article sans contenu
+curl -X POST http://localhost:3000/api/articles \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Titre sans contenu"}'
+
+# Test 10: Test article avec auteur optionnel
+curl -X POST http://localhost:3000/api/articles \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Article sans auteur", "content": "Contenu de l article"}'
+
+# Test 11: Test route inexistante
+curl -X GET http://localhost:3000/api/inexistant
+
+# Instructions d'utilisation:
+# 1. Démarrer le serveur: npm run dev
+# 2. Remplacer [ID] par l'ID réel retourné lors de la création d'un article
+# 3. Exécuter les tests dans l'ordre pour vérifier toutes les fonctionnalités 
