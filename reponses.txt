@@ -1,0 +1,133 @@
+
+## Partie 1 : Questions Théoriques
+
+Question 1
+
+`express.json()` est un middleware intégré d'Express qui permet de parser (analyser) les requêtes HTTP entrantes dont le contenu est au format JSON.
+
+- **Parsing automatique** : Transforme automatiquement le corps des requêtes JSON en objet JavaScript
+- **Middleware** : S'exécute avant les routes pour préparer les données
+- **Content-Type** : Fonctionne avec les requêtes ayant le header `Content-Type: application/json`
+
+Les avantages de express.json() :
+- **Automatique** : Pas besoin de parser manuellement
+- **Sécurisé** : Gestion des erreurs intégrée
+- **Limite de taille** : Protection contre les requêtes trop volumineuses
+- **Performance** : Optimisé pour les requêtes JSON
+
+---
+
+Question 2
+
+**Route publique :**
+- Accessible à tous les utilisateurs sans authentification
+- Pas de vérification d'identité requise
+- Données publiques ou non sensibles
+
+**Route protégée :**
+- Nécessite une authentification préalable
+- Vérification du token/session utilisateur
+- Accès aux données privées ou sensibles
+
+**Exemple de route publique :**
+```javascript
+// Route publique - accessible à tous
+app.get('/api/articles', (req, res) => {
+  // Affiche tous les articles publics
+  res.json({ articles: publicArticles });
+});
+```
+
+**Exemple de route protégée :**
+```javascript
+// Middleware d'authentification
+const authMiddleware = (req, res, next) => {
+  const token = req.headers.authorization;
+  if (!token) {
+    return res.status(401).json({ error: 'Token requis' });
+  }
+  // Vérifier le token...
+  next();
+};
+
+// Route protégée - nécessite authentification
+app.post('/api/articles', authMiddleware, (req, res) => {
+  // Créer un article (action privée)
+  res.json({ message: 'Article créé' });
+});
+```
+
+---
+
+Question 3
+
+**Rôle de mongoose.model() :**
+- Crée un modèle Mongoose qui représente une collection MongoDB
+- Définit la structure des documents (schéma)
+- Fournit des méthodes pour interagir avec la base de données
+- Permet de faire des requêtes CRUD sur la collection
+
+**Connexion à la base de données :**
+- Le modèle est connecté à MongoDB via la connexion Mongoose établie
+- Mongoose utilise la connexion active pour exécuter les requêtes
+- Le modèle fait le pont entre le code JavaScript et la collection MongoDB
+- Les opérations du modèle (save, find, update, delete) sont traduites en requêtes MongoDB
+- Le nom du modèle détermine le nom de la collection dans MongoDB (pluriel automatique)
+
+---
+
+Question 4
+
+**find() :**
+- Recherche multiple documents selon des critères
+- Retourne un tableau (array) de documents
+- Permet des filtres complexes (conditions, opérateurs)
+- Peut retourner 0, 1 ou plusieurs documents
+- Plus flexible pour les requêtes complexes
+
+**findById() :**
+- Recherche un seul document par son ID unique
+- Retourne un seul document ou null
+- Utilise directement l'ID MongoDB (_id)
+- Plus rapide car recherche par index primaire
+- Spécialement optimisé pour les recherches par ID
+
+**Cas d'usage :**
+- `find()` : Lister tous les articles, rechercher par auteur, filtrer par date
+- `findById()` : Récupérer un article spécifique, afficher les détails d'un article
+
+**Performance :**
+- `findById()` est généralement plus rapide car utilise l'index primaire
+- `find()` peut être plus lent sur de grandes collections sans index appropriés
+
+---
+
+Question 5
+
+**Expliquez brièvement comment fonctionne l'authentification avec JWT**
+
+**JWT (JSON Web Token) :**
+- Token numérique qui contient des informations d'utilisateur
+- Format : Header.Payload.Signature (3 parties séparées par des points)
+- Stateless : Pas besoin de stocker les sessions côté serveur
+
+**Processus d'authentification :**
+
+1. **Login** : L'utilisateur s'authentifie avec email/mot de passe
+2. **Génération** : Le serveur crée un JWT avec les données utilisateur
+3. **Envoi** : Le JWT est envoyé au client (header Authorization)
+4. **Validation** : À chaque requête, le serveur vérifie la signature du JWT
+5. **Accès** : Si valide, l'utilisateur accède aux ressources protégées
+
+**Avantages :**
+- Stateless : Pas de base de données pour les sessions
+- Scalable : Fonctionne avec plusieurs serveurs
+- Sécurisé : Signature cryptographique
+- Portable : Fonctionne sur différents domaines
+
+**Sécurité :**
+- Le JWT contient une signature cryptographique
+- Seul le serveur avec la clé secrète peut créer/modifier les tokens
+- Expiration automatique pour limiter la durée de vie
+- Révocation possible via blacklist (optionnel)
+
