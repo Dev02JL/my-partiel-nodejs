@@ -23,7 +23,7 @@ Une API REST simple pour gérer des articles avec Node.js, Express et MongoDB.
 
 1. **Cloner le projet**
    ```bash
-   git clone <url-du-repo>
+   git clone git@github.com:Dev02JL/my-partiel-nodejs.git
    cd Partiel_Nodejs
    ```
 
@@ -104,7 +104,7 @@ Partiel_Nodejs/
 ✅ **Express** - Framework web utilisé  
 ✅ **Mongoose** - ODM pour MongoDB  
 ✅ **dotenv** - Gestion des variables d'environnement  
-✅ **MongoDB local** - Configuration stockée dans config.env  
+✅ **MongoDB** - Configuration stockée dans config.env  
 ✅ **Réponses JSON** - Toutes les réponses sont en JSON  
 ✅ **Statuts HTTP clairs** - 200, 201, 400, 404, 500 selon les cas
 
